@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="nav_open"><router-link to="/open">open</router-link></div>
     <router-view></router-view>
   </div>
 </template>
@@ -21,5 +22,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.nav_open {
+  text-align: center;
+  font-size: 50px;
+  a{
+    color:#ccc;
+    text-decoration: none;
+  }
+  a:hover{
+    color:#FCDFB3;
+  }
+}
 </style>
