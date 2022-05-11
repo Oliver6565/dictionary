@@ -1,7 +1,7 @@
 <template>
     <div class="open">
-        <Search></Search>
-        <Content></Content>
+        <Search @sendMsg="handle"></Search>
+        <Content :Msg="Msg"></Content>
     </div>
 </template>
 
@@ -14,11 +14,16 @@ export default {
     components:{ Search, Content },
     setup () {
         const state = reactive({
-            count: 0,
+            Msg:''
         })
-    
+        
+        const handle=(value)=>{
+            state.Msg = value
+        }
+
         return {
             ...toRefs(state),
+            handle,
         }
     }
 }
@@ -26,7 +31,6 @@ export default {
 
 <style lang="less" scoped>
 .open{
-    color:#FCDFB3;
-    background-color: #6B92B0;
+    
 }
 </style>

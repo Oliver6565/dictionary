@@ -1,61 +1,69 @@
 <template>
+    <div class="h3" v-if="!wordValue==''"><h3>{{wordValue}}</h3></div>
     <div class="search_box">
-          <form>
-                <div class="group">      
-                <input type="text" required>
-                <span class="highlight"></span>
-                <span class="bar"></span>
-                <label>Name</label>
-                </div>
-  </form>
+      <div class="group">      
+        <input type="text" required v-model="wordValue"
+        @keydown.enter="sendmsg">
+        <span class="bar"></span>
+        <label>type A word</label>
+      </div>
     </div>
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
-
+import { reactive, toRefs,defineEmits } from 'vue'
 export default {
-    setup () {
+    emits:['sendMsg'],
+    setup (props,{emit}) {
         const state = reactive({
-            count: 0,
+            wordValue :''
+          
         })
-    
+        const sendmsg = ()=>{
+          emit("sendMsg",state.wordValue)
+        }
         return {
             ...toRefs(state),
+            sendmsg
         }
     }
 }
 </script>
 
 <style lang="less" scoped>
+.h3{
+  color: #fff;
+  opacity: 0.9;
+  text-align: center;
+  padding-top: 20px ;
+}
+
 .search_box{
-    padding: 20px 0;
+    padding: 40px 0 40px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
-
 /* form starting stylings ------------------------------- */
-.group 			  { 
+.group{ 
   position:relative; 
-  margin-bottom:45px; 
 }
-input 				{
-    color: white;
-    background: transparent;
+input{
+  color: white;
+  opacity: 0.9;
+  background: transparent;
   font-size:18px;
   padding:10px 10px 10px 5px;
   display:block;
   width:300px;
   border:none;
-  border-bottom:1px solid #757575;
+  border-bottom:2px solid #94C9F2;
 }
-input:focus 		{ outline:none; }
+input:focus{ outline:none; }
 
 /* LABEL ======================================= */
-label 				 {
-  color:#999; 
+label{
+  color:#ccc; 
   font-size:18px;
   font-weight:normal;
   position:absolute;
@@ -68,19 +76,19 @@ label 				 {
 }
 
 /* active state */
-input:focus ~ label, input:valid ~ label 		{
+input:focus ~ label, input:valid ~ label{
   top:-20px;
   font-size:14px;
   color:#5264AE;
 }
 
 /* BOTTOM BARS ================================= */
-.bar 	{ position:relative; display:block; width:300px; }
-.bar:before, .bar:after 	{
+.bar{ position:relative; display:block; width:300px; }
+.bar:before, .bar:after{
   content:'';
   height:2px; 
   width:0;
-  bottom:1px; 
+  bottom:0px; 
   position:absolute;
   background:#5264AE; 
   transition:0.2s ease all; 
@@ -97,37 +105,5 @@ input:focus ~ label, input:valid ~ label 		{
 /* active state */
 input:focus ~ .bar:before, input:focus ~ .bar:after {
   width:50%;
-}
-
-/* HIGHLIGHTER ================================== */
-.highlight {
-  position:absolute;
-  height:60%; 
-  width:100px; 
-  top:25%; 
-  left:0;
-  pointer-events:none;
-  opacity:0.5;
-}
-
-/* active state */
-input:focus ~ .highlight {
-  -webkit-animation:inputHighlighter 0.3s ease;
-  -moz-animation:inputHighlighter 0.3s ease;
-  animation:inputHighlighter 0.3s ease;
-}
-
-/* ANIMATIONS ================ */
-@-webkit-keyframes inputHighlighter {
-	from { background:#5264AE; }
-  to 	{ width:0; background:transparent; }
-}
-@-moz-keyframes inputHighlighter {
-	from { background:#5264AE; }
-  to 	{ width:0; background:transparent; }
-}
-@keyframes inputHighlighter {
-	from { background:#5264AE; }
-  to 	{ width:0; background:transparent; }
 }
 </style>
