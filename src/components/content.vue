@@ -2,8 +2,8 @@
     <div class="container">
         <div v-if="Msg==''">Start to type. to draw A dream ...</div>
         <div v-else>
-            <span>{{tip}}</span>
-            <div class="definition" v-for="(item,index) in wordlist" :key="index">
+            <span v-if="flag==0">{{tip}}</span>
+            <div class="definition" v-for="(item,index) in wordlist" :key="index" v-else>
                 <div class="top">
                     <!-- 音标 -->
                     <div class="phonetic" @click="handleplay(index)">{{item.phonetic}}</div>
@@ -35,16 +35,18 @@ export default {
     setup (props) {
         const state = reactive({
             tip:'',
-            wordlist:[]
+            wordlist:[],
+            flag:0
         })
         const getData = async (url)=>{
             try{
                 const {data:res} = await axios.get(url);
                 // console.log(res)    // 返回的是一个数组
-                state.tip='搜索结果如下:'
+                state.flag= 1
                 state.wordlist = res
 
             }catch(err){
+                state.flag= 0
                 state.tip = '搜索不到该单词'
                 return
             }
